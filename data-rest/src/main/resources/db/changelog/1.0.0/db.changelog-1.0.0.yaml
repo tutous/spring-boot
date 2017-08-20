@@ -1,0 +1,43 @@
+databaseChangeLog:
+- changeSet:
+    id: 1.0.0-initial-create-tables
+    author: usluga
+    changes:
+    - createTable:
+        schemaName: public
+        tableName: employee
+        columns:
+        - column:
+            name: id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+        - column:
+            name: uuid
+            type: uuid
+            constraints:
+              nullable: false
+        - column:
+            name: first_name
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: family_name
+            type: varchar(255)
+            constraints:
+              nullable: false
+- changeSet:
+    id: 1.0.0-initial-create-indexes
+    author: usluga
+    changes:
+    - createIndex:
+        indexName: idx_employee_uuid
+        schemaName: public
+        tableName: employee
+        unique: true
+        columns:
+        - column:
+            name: uuid
