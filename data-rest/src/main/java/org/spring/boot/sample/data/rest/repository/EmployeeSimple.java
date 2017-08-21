@@ -3,7 +3,6 @@ package org.spring.boot.sample.data.rest.repository;
 import org.spring.boot.sample.data.rest.domain.Employee;
 import org.springframework.data.rest.core.config.Projection;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Projection(name = "simple", types = { Employee.class })
