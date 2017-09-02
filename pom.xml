@@ -18,6 +18,7 @@
 
 	<modules>
 		<module>data-rest</module>
+		<module>cucumber</module>
 	</modules>
 
 	<dependencies>

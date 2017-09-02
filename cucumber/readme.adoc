@@ -1,0 +1,271 @@
+= Intention
+
+Write employee integration test based on cucumber.
+
+* https://docs.cucumber.io[Cucumber docs]
+
+== App Code
+
+=== domain object Employee
+
+[source,java]
+----
+public class Employee {
+
+	@NotNull
+	@JsonProperty(value = "id")
+	private Integer id = null;
+
+	@NotNull
+	@JsonProperty(value = "firstName")
+	private String firstName = null;
+
+	@NotNull
+	@JsonProperty(value = "familyName")
+	private String familyName = null;
+
+	public Employee(Integer id, String firstName, String familyName) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.familyName = familyName;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getFamilyName() {
+		return familyName;
+	}
+
+	public void setFamilyName(String familyName) {
+		this.familyName = familyName;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (null == obj) {
+			return false;
+		}
+
+		if (this == obj) {
+			return true;
+		}
+
+		if (!getClass().equals(ClassUtils.getUserClass(obj))) {
+			return false;
+		}
+
+		Employee that = (Employee) obj;
+
+		return null == this.getId() ? false : this.getId().equals(that.getId());
+	}
+
+	@Override
+	public int hashCode() {
+
+		int hashCode = 17;
+
+		hashCode += null == getId() ? 0 : getId().hashCode() * 31;
+
+		return hashCode;
+	}
+
+	@Override
+	public String toString() {
+		return new StringBuilder(Employee.class.getSimpleName()).append('{')//
+				.append("id=").append(id)//
+				.append(",firstName=").append(firstName)//
+				.append(",familyName").append(familyName)//
+				.append('}').toString();
+	}
+} 
+
+----
+
+=== EmployeeController
+
+[source,java]
+----
+
+@RestController
+public class EmployeeController {
+
+	private EmployeeRepository employeeRepository;
+
+	public EmployeeController(@Autowired EmployeeRepository employeeRepository) {
+		this.employeeRepository = employeeRepository;
+	}
+
+	@RequestMapping(method = { RequestMethod.GET }, value = { "/version" })
+	public String getVersion() {
+		return "1.0";
+	}
+
+	@ResponseBody()
+	@RequestMapping(method = { RequestMethod.GET }, 
+	        value = { "/employee/{id}" }, //
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Employee> getEmployee(@PathVariable Integer id) {
+		Optional<Employee> optional = employeeRepository.findEmployeeById(id);
+		if (optional.isPresent()) {
+			return new ResponseEntity<Employee>(optional.get(), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Employee>(HttpStatus.NOT_FOUND);
+		}
+	}
+
+}
+
+----
+
+=== EmployeeRepository
+
+[source,java]
+----
+
+@Service
+public class EmployeeRepository {
+
+	private static Set<Employee> employees = new HashSet<Employee>();
+	static {
+		employees.add(new Employee(1, "Uwe", "Sluga"));
+		employees.add(new Employee(2, "Anni", "Sluga"));
+		employees.add(new Employee(3, "Anton", "Sluga"));
+		employees.add(new Employee(4, "Kill", "Bill"));
+	}
+
+	public Optional<Employee> findEmployeeById(Integer id) {
+		return employees.stream().filter((e) -> e.getId().equals(id)).findFirst();
+	}
+
+}
+----
+
+== Test Code
+
+=== Cucumber employee.feature
+
+----
+
+Feature: employee integration tests
+
+  Scenario: get version
+    Given   valid version 1.0
+    When    get version
+    Then    version response status code is 200
+    And     receives version 1.0
+
+  Scenario Outline: get employee by id
+    When    get employee <id>
+    Then    the employee response status code is <status>
+    And     the employee value contains <firstName>, <lastName>
+    Examples:
+      | id | firstName |  lastName   | status |
+      | 1  | "Uwe"     |  "Sluga"    | 200    |
+      | 2  | "Anni"    |  "Sluga"    | 200    |
+      | 3  | "Anton"   |  "Sluga"    | 200    |
+      | 5  |           |             | 404    |
+
+----
+
+=== CucumberIntegrationTest
+
+[source,java]
+----
+
+@RunWith(Cucumber.class)
+@CucumberOptions(features = "src/test/resources")
+public class CucumberIntegrationTest {
+	
+}
+
+----
+
+=== EmployeeControllerTest
+
+[source,java]
+----
+
+@CucumberIntegrationConf
+public class EmployeeControllerTest {
+
+	@Autowired
+	private MockMvc mvc;
+
+	@Autowired
+	private TestRestTemplate restTemplate;
+
+	private ResultActions response;
+	private Integer givenMajor, givenMinor, givenEmployeeId;
+
+	/**
+	 * Scenario: get version
+	 */
+
+	@Given("^valid version (\\d+)\\.(\\d+)$")
+	public void valid_version(Integer major, Integer minor) throws Throwable {
+		this.givenMajor = major;
+		this.givenMinor = minor;
+	}
+
+	@When("^get version$")
+	public void get_version() throws Throwable {
+		response = mvc.perform(get("http://localhost:8080/version"));
+	}
+
+	@Then("^version response status code is (\\d+)$")
+	public void version_request_status_code_is(int status) throws Throwable {
+		response.andExpect(status().is(status));
+	}
+
+	@Then("^receives version (\\d+)\\.(\\d+)$")
+	public void receives_version(Integer major, Integer minor) throws Throwable {
+		response.andExpect(content().string(major + "." + minor));
+		Assert.assertThat(this.givenMajor, Matchers.equalTo(major));
+		Assert.assertThat(this.givenMinor, Matchers.equalTo(minor));
+	}
+
+	/**
+	 * Scenario: get employee by id
+	 */
+
+	@When("^get employee (\\d+)$")
+	public void get_employee(int employeeId) throws Throwable {
+		this.givenEmployeeId = employeeId;
+		response = mvc.perform(get("http://localhost:8080/employee/" + employeeId));
+	}
+
+	@Then("^the employee response status code is (\\d+)$")
+	public void the_employee_response_status_code_is(int status) throws Throwable {
+		response.andExpect(status().is(status));
+	}
+
+	@Then("^the employee value contains \"([^\"]*)\", \"([^\"]*)\"$")
+	public void the_employee_value_should_contain(String firstName, String familyName) throws Throwable {
+		ObjectMapper om = new ObjectMapper();
+		String jsonContent = om.writeValueAsString(new Employee(givenEmployeeId, firstName, familyName));
+		response.andExpect(content().json(jsonContent));
+	}
+
+	@Then("^the employee value contains , $")
+	public void the_employee_value_contains() throws Throwable {
+		// is called by status code 404
+	}
+
+}
+
+----
