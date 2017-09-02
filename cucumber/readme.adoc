@@ -1,8 +1,10 @@
 = Intention
 
-Write employee integration test based on cucumber.
+Write spring-boot integration tests based on the cucumber framework.
 
-* https://docs.cucumber.io[Cucumber docs]
+* https://github.com/cucumber/cucumber/wiki/Gherkin[Gherkin] is the language that Cucumber understands.
+* https://docs.cucumber.io[Cucumber] is a tool that supports Behaviour-Driven Development (BDD).
+* https://mvnrepository.com/artifact/info.cukes[Maven repositories] of info.cukes.
 
 == App Code
 
