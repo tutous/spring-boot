@@ -1,11 +1,9 @@
 package org.spring.boot.sample.data.rest.domain;
 
-import java.util.Objects;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -22,8 +20,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Validated
 @DynamicUpdate
 @Table(name = "EMPLOYEE")
-@JsonIgnoreProperties(value = { "new", "uuid", "id" })
-public class Employee extends AbstractPersistable<Long> implements Identifiable<Long> {
+@JsonIgnoreProperties(value = { "new", "id" })
+public class Employee extends AbstractPersistable<Long> /*implements Identifiable<Long>*/ {
 
 	/**
 	 * serialVersionUID
