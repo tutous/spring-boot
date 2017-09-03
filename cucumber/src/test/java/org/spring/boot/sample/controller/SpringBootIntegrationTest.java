@@ -1,4 +1,4 @@
-package org.spring.boot.sample.cucumber.controller;
+package org.spring.boot.sample.controller;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -14,6 +14,6 @@ import org.springframework.test.context.ContextConfiguration;
 @AutoConfigureMockMvc
 @ContextConfiguration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public @interface CucumberIntegrationConf {
+public @interface SpringBootIntegrationTest {
 
 }

@@ -1,4 +1,4 @@
-package org.spring.boot.sample.cucumber.controller;
+package org.spring.boot.sample.controller;
 
 import org.junit.runner.RunWith;
 

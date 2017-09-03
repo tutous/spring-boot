@@ -1,4 +1,4 @@
-package org.spring.boot.sample.cucumber.domain;
+package org.spring.boot.sample.domain;
 
 import javax.validation.constraints.NotNull;
 

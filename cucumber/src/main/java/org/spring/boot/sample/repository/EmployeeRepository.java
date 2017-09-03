@@ -1,10 +1,10 @@
-package org.spring.boot.sample.cucumber.repository;
+package org.spring.boot.sample.repository;
 
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import org.spring.boot.sample.cucumber.domain.Employee;
+import org.spring.boot.sample.domain.Employee;
 import org.springframework.stereotype.Service;
 
 @Service

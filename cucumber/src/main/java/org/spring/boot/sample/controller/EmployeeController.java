@@ -1,9 +1,9 @@
-package org.spring.boot.sample.cucumber.controller;
+package org.spring.boot.sample.controller;
 
 import java.util.Optional;
 
-import org.spring.boot.sample.cucumber.domain.Employee;
-import org.spring.boot.sample.cucumber.repository.EmployeeRepository;
+import org.spring.boot.sample.domain.Employee;
+import org.spring.boot.sample.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
