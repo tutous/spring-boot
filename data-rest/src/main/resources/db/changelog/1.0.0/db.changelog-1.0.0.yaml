@@ -15,6 +15,13 @@ databaseChangeLog:
               nullable: false
               primaryKey: true
         - column:
+            name: id_ref
+            type: bigint
+            autoIncrement: false
+            constraints:
+              nullable: true
+              primaryKey: false
+        - column:
             name: uuid
             type: uuid
             constraints:
@@ -25,10 +32,114 @@ databaseChangeLog:
             constraints:
               nullable: false
         - column:
-            name: family_name
+            name: last_name
             type: varchar(255)
             constraints:
               nullable: false
+        - column:
+            name: address_id
+            type: bigint
+            constraints:
+              nullable: true
+        - column:
+            name: dtype
+            type: varchar(10)
+            constraints:
+              nullable: false
+    - createTable:
+        schemaName: public
+        tableName: address
+        columns:
+        - column:
+            name: id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+        - column:
+            name: city
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: zip
+            type: varchar(15)
+            constraints:
+              nullable: true
+        - column:
+            name: street
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: street_number
+            type: varchar(15)
+            constraints:
+              nullable: false
+    - createTable:
+        schemaName: public
+        tableName: project
+        columns:
+        - column:
+            name: id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+        - column:
+            name: uuid
+            type: uuid
+            constraints:
+              nullable: false
+        - column:
+            name: name
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: description
+            type: varchar(255)
+            constraints:
+              nullable: false
+    - createTable:
+        schemaName: public
+        tableName: emp_proj
+        columns:
+        - column:
+            name: employee_id
+            type: bigint
+            constraints:
+              nullable: false
+              primaryKey: false
+        - column:
+            name: project_id
+            type: bigint
+            constraints:
+              nullable: false
+              primaryKey: false
+    - addPrimaryKey:
+        columnNames: employee_id, project_id
+        constraintName: pk_employee_project
+        schemaName: public
+        tableName: emp_proj
+- changeSet:
+    id: 1.0.0-initial-create-foreignkeys
+    author: usluga
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: id
+        baseTableName: employee
+        constraintName: fk_employee_id_to_emp_proj
+        referencedColumnNames: employee_id
+        referencedTableName: emp_proj
+    - addForeignKeyConstraint:
+        baseColumnNames: id
+        baseTableName: project
+        constraintName: fk_project_id_to_emp_proj
+        referencedColumnNames: project_id
+        referencedTableName: emp_proj
 - changeSet:
     id: 1.0.0-initial-create-indexes
     author: usluga

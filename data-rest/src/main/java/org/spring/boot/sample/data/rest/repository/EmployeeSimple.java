@@ -11,7 +11,7 @@ public interface EmployeeSimple {
 	@JsonProperty("firstName")
 	public String getFirstName();
 
-	@JsonProperty("familyName")
-	public String getFamilyName();
+	@JsonProperty("lastName")
+	public String getLastName();
 
 }
