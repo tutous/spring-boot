@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @MappedSuperclass
 @Inheritance
 @DiscriminatorColumn(name = "dtype")
-@JsonIgnoreProperties(value = { "new", "id" })
+@JsonIgnoreProperties(value = { "uuid", "new", "id", "handler", "hibernateLazyInitializer" })
 public class Person extends Resource {
 
 	/**

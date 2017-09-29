@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Validated
 @DynamicUpdate
 @Table(name = "ADDRESS")
-@JsonIgnoreProperties(value = { "new", "id" })
+@JsonIgnoreProperties(value = { "new", "id", "handler", "hibernateLazyInitializer" })
 public class Address extends AbstractPersistable<Long> {
 
 	/**
@@ -26,24 +26,24 @@ public class Address extends AbstractPersistable<Long> {
 
 	@NotNull
 	@Column(name = "CITY")
-	@JsonProperty(value="city")
+	@JsonProperty(value = "city")
 	private String city;
 
 	@NotNull
 	@Column(name = "STREET")
-	@JsonProperty(value="street")
+	@JsonProperty(value = "street")
 	private String street;
 
 	@NotNull
 	@Column(name = "STREET_NUMBER")
-	@JsonProperty(value="streetNumber")
+	@JsonProperty(value = "streetNumber")
 	private String streetNumber;
-	
+
 	@NotNull
 	@Column(name = "ZIP")
-	@JsonProperty(value="zip")
+	@JsonProperty(value = "zip")
 	private String zip;
-	
+
 	public String getCity() {
 		return city;
 	}

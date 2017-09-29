@@ -18,7 +18,8 @@
 
 	<modules>
 		<module>data-rest</module>
-		<module>cucumber</module>
+		<module>test-cucumber</module>
+                <module>test-spock</module>
 	</modules>
 
 	<dependencies>

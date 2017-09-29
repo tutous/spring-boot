@@ -129,17 +129,17 @@ databaseChangeLog:
     author: usluga
     changes:
     - addForeignKeyConstraint:
-        baseColumnNames: id
-        baseTableName: employee
+        baseColumnNames: employee_id
+        baseTableName: emp_proj
         constraintName: fk_employee_id_to_emp_proj
-        referencedColumnNames: employee_id
-        referencedTableName: emp_proj
+        referencedColumnNames: id
+        referencedTableName: employee
     - addForeignKeyConstraint:
-        baseColumnNames: id
-        baseTableName: project
+        baseColumnNames: project_id
+        baseTableName: emp_proj
         constraintName: fk_project_id_to_emp_proj
-        referencedColumnNames: project_id
-        referencedTableName: emp_proj
+        referencedColumnNames: id
+        referencedTableName: project
 - changeSet:
     id: 1.0.0-initial-create-indexes
     author: usluga

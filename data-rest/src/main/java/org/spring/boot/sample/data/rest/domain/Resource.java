@@ -11,7 +11,7 @@ import org.springframework.hateoas.Identifiable;
 import org.springframework.util.ClassUtils;
 
 @MappedSuperclass
-public class Resource extends AbstractPersistable<Long> implements Identifiable<Long> {
+public abstract class Resource extends AbstractPersistable<Long> implements Identifiable<Long> {
 
 	/**
 	 * serialVersionUID

@@ -6,6 +6,8 @@ import javax.persistence.EntityManager;
 
 import org.spring.boot.sample.data.rest.domain.Address;
 import org.spring.boot.sample.data.rest.domain.Employee;
+import org.spring.boot.sample.data.rest.domain.Manager;
+import org.spring.boot.sample.data.rest.domain.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -32,7 +34,7 @@ public class Application implements CommandLineRunner {
 
 	@Autowired
 	private EntityManager entityManager;
-	
+
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(Application.class, args);
 	}
@@ -48,18 +50,68 @@ public class Application implements CommandLineRunner {
 	@Transactional
 	public void run(String... args) throws Exception {
 		if (initTestData(args)) {
-			Employee empl1 = new Employee();
-			empl1.setFirstName("Uwe");
-			empl1.setLastName("Sluga");
-			empl1.setUuid(UUID.randomUUID());
-			Address address1 = new Address();
-			address1.setCity("Wolfsburg");
-			address1.setStreet("Street");
-			address1.setStreetNumber("1");
-			address1.setZip("12345");
-			empl1.setAddress(address1);
-			entityManager.persist(address1);
-			entityManager.persist(empl1);
+			// address
+			Address addressWob = new Address();
+			addressWob.setCity("Wolfsburg");
+			addressWob.setStreet("Street");
+			addressWob.setStreetNumber("1");
+			addressWob.setZip("12345");
+			entityManager.persist(addressWob);
+			// anton
+			Employee anton = new Employee();
+			anton.setFirstName("Anton");
+			anton.setLastName("Sluga");
+			anton.setUuid(UUID.randomUUID());
+			anton.setAddress(addressWob);
+			entityManager.persist(anton);
+			// anni
+			Employee anni = new Employee();
+			anni.setFirstName("Anni");
+			anni.setLastName("Sluga");
+			anni.setUuid(UUID.randomUUID());
+			anni.setAddress(addressWob);
+			entityManager.persist(anni);
+			// sabine
+			Employee sabine = new Employee();
+			sabine.setFirstName("Sabine");
+			sabine.setLastName("Sluga");
+			sabine.setUuid(UUID.randomUUID());
+			sabine.setAddress(addressWob);
+			entityManager.persist(sabine);
+			// manager
+			Manager uwe = new Manager();
+			uwe.setFirstName("Uwe");
+			uwe.setLastName("Sluga");
+			uwe.setUuid(UUID.randomUUID());
+			uwe.setAddress(addressWob);
+			uwe.add(anton);
+			uwe.add(anni);
+			uwe.add(sabine);
+			entityManager.persist(uwe);
+			// family
+			Project family = new Project();
+			family.setName("family");
+			family.setDescription("family sluga");
+			family.setUuid(UUID.randomUUID());
+			family.add(anton);
+			family.add(anni);
+			family.add(sabine);
+			family.add(uwe);
+			entityManager.persist(family);
+			// school
+			Project childs = new Project();
+			childs.setName("childs");
+			childs.setDescription("childs sluga");
+			childs.setUuid(UUID.randomUUID());
+			childs.add(anton);
+			childs.add(anni);
+			anni.add(childs);
+			anni.add(family);
+			anton.add(childs);
+			anton.add(family);
+			sabine.add(family);
+			uwe.add(family);
+			entityManager.persist(childs);
 		}
 
 	}

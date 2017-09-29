@@ -1,23 +1,174 @@
 = 1. Overview
 
-== 
+= 2. CURL 
 
-== GET
+== Employee
+
+=== GET
 
 ----
-curl -X GET --header 'Accept: application/json' 'http://localhost:8080/employees'
-
 curl -X GET --header 'Accept: application/json' 'http://localhost:8080/employees/1'
 ----
 
-== POST
+[source=JSON]
+----
+{
+  "firstName" : "Anton",
+  "lastName" : "Sluga",
+  "address" : {
+    "city" : "Wolfsburg",
+    "street" : "Street",
+    "streetNumber" : "1",
+    "zip" : "12345"
+  },
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/employees/1"
+    },
+    "employee" : {
+      "href" : "http://localhost:8080/employees/1{?projection}",
+      "templated" : true
+    },
+    "projects" : {
+      "href" : "http://localhost:8080/employees/1/projects"
+    }
+  }
+}
+----
 
 ----
-curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/hal+json' -d '{
-   "familyName": "Sluga", 
-   "firstName": "Uwe", 
-   "uuid": "12345678-1234-1234-1234-123456789012" 
- }' 'http://localhost:8080/employees'
+curl -X GET --header 'Accept: application/json' 'http://localhost:8080/employees/1?projection=employeeResource'
 ----
+
+[source=JSON]
+----
+{
+  "uuid" : "543144e1-fcf5-47d0-b690-261c0d14c3cb",
+  "firstName" : "Anton",
+  "lastName" : "Sluga",
+  "address" : "12345 Wolfsburg, Street 1",
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/employees/1"
+    },
+    "employee" : {
+      "href" : "http://localhost:8080/employees/1{?projection}",
+      "templated" : true
+    },
+    "projects" : {
+      "href" : "http://localhost:8080/employees/1/projects"
+    }
+  }
+}
+----
+
+----
+curl -X GET --header 'Accept: application/json' 'http://localhost:8080/employees/search/findByUuid?uuid=543144e1-fcf5-47d0-b690-261c0d14c3cb'
+----
+
+[source=JSON]
+----
+{
+  "firstName" : "Anton",
+  "lastName" : "Sluga",
+  "address" : {
+    "city" : "Wolfsburg",
+    "street" : "Street",
+    "streetNumber" : "1",
+    "zip" : "12345"
+  },
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/employees/1"
+    },
+    "employee" : {
+      "href" : "http://localhost:8080/employees/1{?projection}",
+      "templated" : true
+    },
+    "projects" : {
+      "href" : "http://localhost:8080/employees/1/projects"
+    }
+  }
+}
+----
+
+----
+curl -X GET --header 'Accept: application/json' 'http://localhost:8080/employees/4'
+----
+
+[source=JSON]
+----
+{
+  "firstName" : "Uwe",
+  "lastName" : "Sluga",
+  "address" : {
+    "city" : "Wolfsburg",
+    "street" : "Street",
+    "streetNumber" : "1",
+    "zip" : "12345"
+  },
+  "_embedded" : {
+    "employees" : [ {
+      "uuid" : "543144e1-fcf5-47d0-b690-261c0d14c3cb",
+      "firstName" : "Anton",
+      "lastName" : "Sluga",
+      "address" : "12345 Wolfsburg, Street 1",
+      "_links" : {
+        "self" : {
+          "href" : "http://localhost:8080/employees/1{?projection}",
+          "templated" : true
+        },
+        "projects" : {
+          "href" : "http://localhost:8080/employees/1/projects"
+        }
+      }
+    }, {
+      "uuid" : "d95277c1-12da-432c-9b74-403dee04bd85",
+      "firstName" : "Anni",
+      "lastName" : "Sluga",
+      "address" : "12345 Wolfsburg, Street 1",
+      "_links" : {
+        "self" : {
+          "href" : "http://localhost:8080/employees/2{?projection}",
+          "templated" : true
+        },
+        "projects" : {
+          "href" : "http://localhost:8080/employees/2/projects"
+        }
+      }
+    }, {
+      "uuid" : "93d583aa-fc44-47ac-973f-fb160e69aa23",
+      "firstName" : "Sabine",
+      "lastName" : "Sluga",
+      "address" : "12345 Wolfsburg, Street 1",
+      "_links" : {
+        "self" : {
+          "href" : "http://localhost:8080/employees/3{?projection}",
+          "templated" : true
+        },
+        "projects" : {
+          "href" : "http://localhost:8080/employees/3/projects"
+        }
+      }
+    } ]
+  },
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/managers/4"
+    },
+    "manager" : {
+      "href" : "http://localhost:8080/managers/4{?projection}",
+      "templated" : true
+    },
+    "projects" : {
+      "href" : "http://localhost:8080/managers/4/projects"
+    },
+    "employees" : {
+      "href" : "http://localhost:8080/managers/4/employees"
+    }
+  }
+}
+----
+
 
 

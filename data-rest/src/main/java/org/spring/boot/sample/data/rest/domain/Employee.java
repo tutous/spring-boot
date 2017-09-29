@@ -1,6 +1,8 @@
 package org.spring.boot.sample.data.rest.domain;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -14,6 +16,8 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.validation.annotation.Validated;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Validated
 @DynamicUpdate
@@ -26,6 +30,7 @@ public class Employee extends Person {
 	 */
 	private static final long serialVersionUID = 2667566374742132716L;
 
+	@JsonProperty(value = "projects")
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(//
 			name = "EMP_PROJ", //
@@ -39,5 +44,12 @@ public class Employee extends Person {
 
 	public void setProjects(List<Project> projects) {
 		this.projects = projects;
+	}
+
+	public void add(Project project) {
+		if (Objects.isNull(projects)) {
+			projects = new ArrayList<>();
+		}
+		projects.add(project);
 	}
 }

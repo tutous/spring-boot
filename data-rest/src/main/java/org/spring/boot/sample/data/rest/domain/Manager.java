@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.validation.annotation.Validated;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Validated
 @DynamicUpdate
@@ -26,6 +28,7 @@ public class Manager extends Employee {
 	 */
 	private static final long serialVersionUID = -8524122526868836523L;
 
+	@JsonProperty(value="employees")
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_ref")
 	private List<Employee> employees;

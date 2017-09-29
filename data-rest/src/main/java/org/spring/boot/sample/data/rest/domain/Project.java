@@ -1,6 +1,8 @@
 package org.spring.boot.sample.data.rest.domain;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,10 +16,13 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.validation.annotation.Validated;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Validated
 @DynamicUpdate
 @Table(name = "PROJECT")
+@JsonIgnoreProperties(value = { "uuid", "new", "id", "handler", "hibernateLazyInitializer" })
 public class Project extends Resource {
 
 	/**
@@ -58,6 +63,13 @@ public class Project extends Resource {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public void add(Employee employee) {
+		if (Objects.isNull(employees)) {
+			employees = new ArrayList<>();
+		}
+		employees.add(employee);
 	}
 
 }
