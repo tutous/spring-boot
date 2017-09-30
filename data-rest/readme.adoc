@@ -1,6 +1,47 @@
 = 1. Overview
 
-= 2. CURL 
+= 2.
+
+[plantuml, diagram-classes, png]     
+....
+
+class Address{
+ String city
+ String street
+ String number
+ String zip
+}
+abstract class Resource{
+ UUID uuid
+}
+class Person{
+ String firstName
+ String lastName
+ Address address
+}
+class Employee{
+ List<Project> projects
+}
+
+class Manager{
+List<Employee> employees
+}
+class Project{
+String name
+String description
+  List<Employee> employees
+}
+ 
+  Address  -left->  Person
+  Person   -up-|>   Resource
+  Project  -up-|>   Resource
+  Employee -up-|>   Person
+  Manager  -up-|>   Employee
+  Employee "0..*" -down-> "1" Manager
+  Project "0..*"  <-right-> "0..*" Employee
+....
+
+= 3. CURL 
 
 == Employee
 
