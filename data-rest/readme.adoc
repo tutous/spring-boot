@@ -5,6 +5,8 @@
 [plantuml, diagram-classes, png]     
 ....
 
+@startuml
+
 class Address{
  String city
  String street
@@ -39,6 +41,8 @@ String description
   Manager  -up-|>   Employee
   Employee "0..*" -down-> "1" Manager
   Project "0..*"  <-right-> "0..*" Employee
+
+@enduml
 ....
 
 = 3. CURL 
