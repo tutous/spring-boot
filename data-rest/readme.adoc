@@ -2,10 +2,8 @@
 
 = 2.
 
-[plantuml, diagram-classes, png]     
-....
-
-@startuml
+[plantuml, format="png", id="classes-diagram"]     
+--
 
 class Address{
  String city
@@ -42,8 +40,7 @@ String description
   Employee "0..*" -down-> "1" Manager
   Project "0..*"  <-right-> "0..*" Employee
 
-@enduml
-....
+--
 
 = 3. CURL 
 
