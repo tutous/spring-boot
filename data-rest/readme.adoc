@@ -2,7 +2,7 @@
 
 = 2. Classes Diagram
 
-!includeurl http://uml.mvnsearch.org/gist/d487d367b6c44aacf25cc4818bd37635
+include::http://uml.mvnsearch.org/gist/d487d367b6c44aacf25cc4818bd37635
 
 = 3. CURL 
 
