@@ -1,47 +1,14 @@
 = 1. Overview
 
-== 2. Classes Diagram
+= 2. Classes Diagram
 
-'''plantuml
-class Address{
- String city
- String street
- String number
- String zip
-}
-abstract class Resource{
- UUID uuid
-}
-class Person{
- String firstName
- String lastName
- Address address
-}
-class Employee{
- List<Project> projects
-}
-class Manager{
- List<Employee> employees
-}
-class Project{
- String name
- String description
- List<Employee> employees
-}
- Address  -left->  Person
- Person   -up-|>   Resource
- Project  -up-|>   Resource
- Employee -up-|>   Person
- Manager  -up-|>   Employee
- Employee "0..*" -down-> "1" Manager
- Project "0..*"  <-right-> "0..*" Employee
-'''
+!includeurl http://uml.mvnsearch.org/gist/d487d367b6c44aacf25cc4818bd37635
 
-== 3. CURL 
+= 3. CURL 
 
 == Employee
 
-=== GET
+=== GET Employee by ID 1
 
 ----
 curl -X GET --header 'Accept: application/json' 'http://localhost:8080/employees/1'
