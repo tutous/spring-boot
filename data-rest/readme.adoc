@@ -1,6 +1,7 @@
 = Overview
 
 This microservice use:
+
 * Spring Boot 1.5.7.RELEASE - https://docs.spring.io/spring-boot/docs/1.5.7.RELEASE/reference/htmlsingle/[Spring Boot Reference Guide]
 * Spring Data Rest 2.6.7.RELEASE - https://docs.spring.io/spring-data/rest/docs/2.6.7.RELEASE/reference/html/[Spring Data REST Reference Guide]
 
