@@ -1,0 +1,85 @@
+databaseChangeLog:
+- changeSet:
+    id: 1.0.0-initial-create-tables
+    author: usluga
+    changes:
+    - createTable:
+        schemaName: public
+        tableName: employee
+        columns:
+        - column:
+            name: id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+        - column:
+            name: first_name
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: last_name
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: address_id
+            type: bigint
+            constraints:
+              nullable: true
+    - createTable:
+        schemaName: public
+        tableName: address
+        columns:
+        - column:
+            name: id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+        - column:
+            name: city
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: zip
+            type: varchar(15)
+            constraints:
+              nullable: true
+        - column:
+            name: street
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: street_number
+            type: varchar(15)
+            constraints:
+              nullable: false
+- changeSet:
+    id: 1.0.0-initial-create-sequence
+    author: usluga
+    changes:
+    - createSequence:
+        schemaName: public
+        sequenceName: address_sequence
+        cycle: true
+        startValue: 1
+        incrementBy: 1
+        maxValue: 1000
+        minValue: 1
+        ordered: true
+    - createSequence:
+        schemaName: public
+        sequenceName: employee_sequence
+        cycle: true
+        startValue: 1
+        incrementBy: 1
+        maxValue: 1000
+        minValue: 1
+        ordered: true
+
